@@ -25,6 +25,30 @@ class Horario {
   const horaDiv = document.querySelector("#menuContent");
   actualizarHorarioTable();
   
+
+/*LLAMADA AL ARCHIVO DE DATOS JSON*/
+
+function cargardatos() {
+ fetch('./datos/data.json')
+ .then((response) => response.json())
+  .then((data) =>{      
+    data.forEach((hora) => {
+    const horaHTML = document.createElement("tr");
+    horaHTML.innerHTML = `<th scope="row">${hora.id}</th>
+        <td>${hora.fecha}</td>
+        <td>${hora.horaI}</td>
+        <td>${hora.horaF}</td>
+        <td>${hora.disponibilidad}</td>
+        <td><button id="editBtn_${hora.id}" type="button" class="btn btn-primary" onclick="editarHora(event)" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                >Editar</button>
+            <button id="deleteBtn_${hora.id}" type="button" class="btn btn-danger" onclick="eliminarHora(event)" data-bs-toggle="modal"
+                >Borrar</button>
+            </td>`;
+        horarioTable.appendChild(horaHTML);
+  })
+  })
+}
+
  function guardarHorario() {
    
     if (idEditarHora != 0) {
@@ -68,26 +92,6 @@ class Horario {
 
   }
   
-/*LLAMADA AL ARCHIVO DE DATOS JSON*/
-
-  function cargardatos() {
-    const response=  fetch('./datos/data.json');
-    const data =  response.json();      
-      data.forEach((hora) => {
-      const horaHTML = document.createElement("tr");
-      horaHTML.innerHTML = `<th scope="row">${hora.id}</th>
-          <td>${hora.fecha}</td>
-          <td>${hora.horaI}</td>
-          <td>${hora.horaF}</td>
-          <td>${hora.disponibilidad}</td>
-          <td><button id="editBtn_${hora.id}" type="button" class="btn btn-primary" onclick="editarHora(event)" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                  >Editar</button>
-              <button id="deleteBtn_${hora.id}" type="button" class="btn btn-danger" onclick="eliminarHora(event)" data-bs-toggle="modal"
-                  >Borrar</button>
-              </td>`;
-          horarioTable.appendChild(horaHTML);
-    })
-    }
   
   function actualizarHorarioTable() {
     horarioTable.innerHTML = "";   
